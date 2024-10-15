@@ -4,8 +4,10 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> graph[100001];
-int visited[100001];
+
+vector<int> graph[100002];
+int visited[100002];
+int n, m, r;
 int cnt;
 
 int main()
@@ -13,14 +15,13 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, m, r;
     cin >> n >> m >> r;
-    for (int i = 0; i < m; ++i)
+    for (int i = 1; i <= m; ++i)
     {
-        int a, b;
-        cin >> a >> b;
-        graph[a].push_back(b);
-        graph[b].push_back(a);
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
     }
 
     for (int i = 1; i <= n; ++i)
@@ -29,15 +30,15 @@ int main()
     }
 
     queue<int> q;
-    q.push(r);
     visited[r] = ++cnt;
+    q.push(r);
     while (!q.empty())
     {
         const auto cur = q.front();
         q.pop();
-        for (int nxt : graph[cur])
+        for (const auto nxt : graph[cur])
         {
-            if (!visited[nxt])
+            if (visited[nxt] == 0)
             {
                 visited[nxt] = ++cnt;
                 q.push(nxt);
@@ -47,8 +48,6 @@ int main()
 
     for (int i = 1; i <= n; ++i)
     {
-        cout << visited[i] << '\n';
+        cout << visited[i] << "\n";
     }
-
-    return 0;
 }
