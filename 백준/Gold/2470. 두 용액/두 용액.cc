@@ -8,8 +8,7 @@ int main()
     int n;
     cin >> n;
 
-    vector<int> v(n, 0);
-
+    vector<int> v(n);
     for (int i = 0; i < n; ++i)
     {
         cin >> v[i];
@@ -19,35 +18,32 @@ int main()
 
     int i = 0;
     int j = n - 1;
-    int left = i;
-    int right = j;
-    int best = v[i] + v[j];
-
+    int minsum = v[i] + v[j];
+    int minleft = i;
+    int minright = j;
     while (i < j)
     {
-        int cursum = v[i] + v[j];
-        if (abs(cursum) < abs(best))
+        auto cursum = v[i] + v[j];
+        if (abs(cursum) < abs(minsum))
         {
-            best = cursum;
-            left = i;
-            right = j;
+            minsum = cursum;
+            minleft = i;
+            minright = j;
         }
-        
-        if (cursum > 0)
-        {
-            j--;
-        }
-        
-        else if (cursum < 0)
+
+        if (cursum < 0)
         {
             i++;
         }
-        
+        else if (cursum > 0)
+        {
+            j--;
+        }
         else
         {
             break;
         }
     }
 
-    cout << v[left] << " " << v[right];
+    cout << v[minleft] << " " << v[minright];
 }
