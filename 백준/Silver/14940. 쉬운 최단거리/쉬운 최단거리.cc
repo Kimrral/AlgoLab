@@ -1,44 +1,43 @@
 #include <iostream>
 #include <queue>
-#include <memory.h>
 using namespace std;
 int N, M;
 int num[1001][1001] = {0};
-int visited[1001][1001] = {0};
+int dist[1001][1001] = {0};
 int targetx, targety;
-int direcx[4] = {0, 0, 1, -1};
-int direcy[4] = {-1, 1, 0, 0};
+int dx[4] = {1, 0, -1, 0};
+int dy[4] = {0, 1, 0, -1};
+
 void bfs(int startx, int starty)
 {
     queue<pair<int, int>> q;
     q.push({startx, starty});
-    visited[startx][starty] = 1;
+    dist[startx][starty] = 1;
     while (!q.empty())
     {
-        int frontx = q.front().first;
-        int fronty = q.front().second;
-
+        const auto cur = q.front();
         q.pop();
 
-        for (int i = 0; i < 4; i++)
+        for (int dir = 0; dir < 4; dir++)
         {
-            int dx = frontx + direcx[i];
-            int dy = fronty + direcy[i];
+            int nx = cur.first + dx[dir];
+            int ny = cur.second + dy[dir];
 
-            if (dx >= 0 && dx < N && dy >= 0 && dy < M)
+            if (nx >= 0 && nx < N && ny >= 0 && ny < M)
             {
-                if (visited[dx][dy] == 0 && num[dx][dy] != 0)
+                if (dist[nx][ny] == 0 && num[nx][ny] != 0)
                 {
-                    visited[dx][dy] = visited[frontx][fronty] + 1;
-                    q.push({dx, dy});
+                    dist[nx][ny] = dist[cur.first][cur.second] + 1;
+                    q.push({nx, ny});
                 }
             }
         }
     }
 }
+
 int main()
 {
-    ios_base ::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     cin >> N >> M;
@@ -70,7 +69,7 @@ int main()
             }
             else
             {
-                cout << visited[i][j] - 1 << " ";
+                cout << dist[i][j] - 1 << " ";
             }
         }
         cout << "\n";
