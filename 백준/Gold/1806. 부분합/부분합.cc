@@ -5,46 +5,49 @@ using namespace std;
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n, s;
-    cin >> n >> s;
+    cin>>n>>s;
 
     vector<int> v(n);
-    for (int i = 0; i < n; ++i)
+    for(int i=0; i<n; ++i)
     {
-        cin >> v[i];
+        cin>>v[i];
     }
 
+    int minlength = n+1;
     int start = 0;
     int end = 0;
     int sum = 0;
-    int minlength = n + 1;
     while (true)
     {
-        if (sum >= s)
-        {
-            minlength = min(minlength, end - start);
-            sum -= v[start];
-            start++;
-        }
-        else if (end == n)
+        if(end>n)
         {
             break;
         }
+        
+        if(sum>=s)
+        {
+            minlength = min(minlength, end-start);
+            sum-=v[start];
+            start++;
+        }
         else
         {
-            sum += v[end];
+            sum+=v[end];
             end++;
         }
     }
 
-    if (minlength == n + 1)
+    if(minlength == n+1)
     {
-        cout << 0;
-        return 0;
+        cout<< 0;
     }
     else
     {
-        cout << minlength;
+        cout<<minlength;
         return 0;
     }
 }
