@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    vector<int> v(n, 0);
+    for (int i = 1; i <= n; ++i)
+    {
+        v[i - 1] = i;
+    }
+    for (int i = 0; i < m; ++i)
+    {
+        int a, b;
+        cin >> a >> b;
+        int prev = v[a - 1];
+        v[a - 1] = v[b - 1];
+        v[b - 1] = prev;
+    }
+    for (const auto a : v)
+    {
+        cout << a << " ";
+    }
+}
