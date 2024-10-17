@@ -1,8 +1,6 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <string>
-
 using namespace std;
 
 int main()
@@ -11,7 +9,6 @@ int main()
     cin >> n;
 
     vector<int> v(n, 0);
-
     for (int i = 0; i < n; ++i)
     {
         cin >> v[i];
@@ -22,10 +19,9 @@ int main()
     int x;
     cin >> x;
 
-    int count = 0;    
     int i = 0;
     int j = n - 1;
-
+    int count = 0;
     while (i < j)
     {
         int sum = v[i] + v[j];
@@ -35,16 +31,15 @@ int main()
             i++;
             j--;
         }
-        else if (sum < x)
-        {
-            i++;
-        }
-        else
+        else if (sum > x)
         {
             j--;
         }
+        else
+        {
+            i++;
+        }
     }
 
-    cout << count << "\n";
-    return 0;
+    cout << count;
 }
