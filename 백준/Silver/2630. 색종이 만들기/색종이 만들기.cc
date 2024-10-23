@@ -1,51 +1,60 @@
 #include <iostream>
+#include <stdbool.h>
 #include <vector>
 using namespace std;
 
-int white_count = 0;
-int blue_count = 0;
+int whitecount;
+int bluecount;
 
-void countPapers(const vector<vector<int>>& paper, int x, int y, int size) {
-    int color = paper[x][y];
-    bool sameColor = true;
-
-    for (int i = x; i < x + size; ++i) {
-        for (int j = y; j < y + size; ++j) {
-            if (paper[i][j] != color) {
-                sameColor = false;
+void paper(vector<vector<int>>& board, int x, int y, int num)
+{
+    int init = board[x][y];
+    bool issame = true;
+    for (int i = x; i < x + num; ++i)
+    {
+        for (int j = y; j < y + num; ++j)
+        {
+            if (init != board[i][j])
+            {
+                issame = false;
                 break;
             }
         }
-        if (!sameColor) break;
+        if (!issame) break;
     }
 
-    if (sameColor) {
-        if (color == 0) white_count++;
-        else blue_count++;
-    } else {
-        int newSize = size / 2;
-        countPapers(paper, x, y, newSize);
-        countPapers(paper, x, y + newSize, newSize);
-        countPapers(paper, x + newSize, y, newSize);
-        countPapers(paper, x + newSize, y + newSize, newSize);
+    if (issame)
+    {
+        if (init == 1) bluecount++;
+        else whitecount++;
+    }
+    else
+    {
+        paper(board, x, y, num / 2);
+        paper(board, x + num / 2, y, num / 2);
+        paper(board, x, y + num / 2, num / 2);
+        paper(board, x + num / 2, y + num / 2, num / 2);
     }
 }
 
-int main() {
+
+int main()
+{
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int N;
-    cin >> N;
-    vector<vector<int>> paper(N, vector<int>(N));
+    int n;
+    cin >> n;
 
-    for (int i = 0; i < N; ++i) {
-        for (int j = 0; j < N; ++j) {
-            cin >> paper[i][j];
+    vector<vector<int>> board(n, vector<int>(n, 0));
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cin >> board[i][j];
         }
     }
 
-    countPapers(paper, 0, 0, N);
-    cout << white_count << "\n" << blue_count << "\n";
-    return 0;
+    paper(board, 0, 0, n);
+    cout << whitecount << "\n" << bluecount;
 }
